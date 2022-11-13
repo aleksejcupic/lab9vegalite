@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vega-Lite Bar Chart</title>
+    <meta charset="utf-8" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.6.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>
+
+    <style media="screen">
+      /* Add space between Vega-Embed links  */
+      .vega-actions a {
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Lab 9: Vega-Lite</h1>
+    <h2>Aleksej Cupic</h2>
+    <!-- Container for the visualization -->
+    <div id="vis"></div>
+
+    <script>
+      // Assign the specification to a local variable vlSpec.
+      var vlSpec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Interactive coordinated plot of a COVID dataset",
+  "data": {
+    "url": "https://raw.githubusercontent.com/bcviscourse/datasets/master/lab9-covidtracking.csv"
+    },
+  "vconcat": [
+    {
+      "width": 600,
+      "height": 200,
+      "params": [{
+        "name":"brush",
+        "select": {"type": "interval"}
+      }],
+      "mark": {"type": "point", "tooltip": {"content": "data"}},
+      "encoding": {
+        "x": {"field": "positive", "type": "quantitative"},
+        "y": {"field": "death", "type": "quantitative"}
+      }
+    }, {
+      "repeat": ["hospitalizedCumulative", "recovered"],
+      "columns": 1,
+      "spec": {
+        "width": 600,
+        "height": 200,
+        "transform": [{
+          "filter":{"param":"brush"}
+        }],
+        "mark": "bar",
+        "encoding": {
+          "x": {
+            "field": "state",
+            "type": "nominal"
+          },  
+          "y": {
+            "field": {"repeat": "repeat"},
+            "type": "quantitative"
+          }
+        },
+      }
+    }
+  ]
+};
+
+      // Embed the visualization in the container with id `vis`
+      vegaEmbed('#vis', vlSpec);
+    </script>
+  </body>
+</html>
