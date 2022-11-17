@@ -40,7 +40,8 @@
       "mark": {"type": "point", "tooltip": {"content": "data"}},
       "encoding": {
         "x": {"field": "positive", "type": "quantitative"},
-        "y": {"field": "death", "type": "quantitative"}
+        "y": {"field": "death", "type": "quantitative"},
+        "color": {"field": "dataQualityGrade", "type": "nominal"}
       }
     }, {
       "repeat": ["hospitalizedCumulative", "recovered"],
